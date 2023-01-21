@@ -15,34 +15,32 @@ const Home = () => {
   //   getTrendingMovies().then(console.log);
   //   console.log('getTrendingMovies() ', getTrendingMovies());
 
-  const fetchData = async () => {
-    setStatus(STATUS.loading);
-    try {
-      const data = await getTrendingMovies();
-
-      if (!data) return;
-
-      console.log('data ', data);
-      const { results, total_results } = data;
-
-      if (!total_results) {
-        toast.warn("Sorry, we couldn't find any matches. Please try again.");
-        setStatus(STATUS.idle);
-        return;
-      }
-
-      setTrendingMovies(results.map(({ id, title }) => ({ id, title })));
-      console.log('trendingMovies ', trendingMovies);
-
-      setStatus(STATUS.success);
-    } catch (error) {
-      console.log('error ', error);
-      toast.error('Oops! Something went wrong. Please try again.');
-      setStatus(STATUS.error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      setStatus(STATUS.loading);
+      try {
+        const data = await getTrendingMovies();
+
+        if (!data) return;
+
+        console.log('data ', data);
+        const { results, total_results } = data;
+
+        if (!total_results) {
+          toast.warn("Sorry, we couldn't find any matches. Please try again.");
+          setStatus(STATUS.idle);
+          return;
+        }
+
+        setTrendingMovies(results.map(({ id, title }) => ({ id, title })));
+
+        setStatus(STATUS.success);
+      } catch (error) {
+        console.log('error ', error);
+        toast.error('Oops! Something went wrong. Please try again.');
+        setStatus(STATUS.error);
+      }
+    };
     fetchData();
   }, []);
 
