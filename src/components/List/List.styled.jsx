@@ -11,5 +11,4 @@ export const ListStyled = styled.ul`
 
 export const ListItemStyled = styled.li`
   padding: 4px 4px 4px 0;
-  /* margin-left: 8px; */
 `;

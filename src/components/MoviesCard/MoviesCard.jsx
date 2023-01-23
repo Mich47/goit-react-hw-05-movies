@@ -1,7 +1,7 @@
 import {
+  MainTitleStyled,
   SubTitleStyled,
   TextStyled,
-  TitleStyled,
 } from 'components/Typography/Typography.styled';
 import no_profile from '../../images/no_profile_picture.jpg';
 import { Container, DescWrapper, ImageWrapper } from './MoviesCard.styled';
@@ -18,6 +18,7 @@ const MoviesCard = ({ movieDetailsById }) => {
   const movieGenres = genres.length
     ? genres.map(({ name }) => name).join(', ')
     : 'Genres not found';
+  const movieOverview = overview || 'Overview not found';
 
   return (
     <Container>
@@ -25,10 +26,10 @@ const MoviesCard = ({ movieDetailsById }) => {
         <img src={posterSrc} alt={title} />
       </ImageWrapper>
       <DescWrapper>
-        <TitleStyled fontSize="l">{title}</TitleStyled>
+        <MainTitleStyled>{title}</MainTitleStyled>
         <TextStyled>Score: {vote_average}</TextStyled>
         <SubTitleStyled>Overview</SubTitleStyled>
-        <TextStyled>{overview}</TextStyled>
+        <TextStyled>{movieOverview}</TextStyled>
         <SubTitleStyled>Genres</SubTitleStyled>
         <TextStyled>{movieGenres}</TextStyled>
       </DescWrapper>

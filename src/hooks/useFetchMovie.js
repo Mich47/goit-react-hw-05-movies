@@ -15,8 +15,6 @@ export const useFetchTrendingMovies = () => {
 
         if (!data) return;
 
-        console.log('data ', data);
-
         const { results, total_results } = data;
 
         if (!total_results) {
