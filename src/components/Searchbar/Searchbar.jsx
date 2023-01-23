@@ -8,19 +8,18 @@ import {
   FormStyled,
   InputStyled,
 } from '../Searchbar/Searchbar.styled';
+import { useEffect } from 'react';
 
 export const Searchbar = ({
   onSubmitForm,
   status = STATUS.success,
   value = '',
 }) => {
-  const [search, setSearch] = useState(value);
+  const [search, setSearch] = useState(value ?? '');
 
-  if (!value) {
-    console.log('search ', search);
-    console.log('value ', value);
-    // setSearch('');
-  }
+  useEffect(() => {
+    setSearch(value ?? '');
+  }, [value]);
 
   const handleChange = event => {
     const { value } = event.target;
@@ -32,7 +31,6 @@ export const Searchbar = ({
     //Прибираємо усі зайві пробіли
     const query = removeExtraSpaces(search);
     setSearch(query);
-    // setSearch('');
 
     onSubmitForm(query);
   };
@@ -41,7 +39,6 @@ export const Searchbar = ({
     setSearch('');
   };
 
-  // console.log('Searchbar ', value);
   return (
     <FormStyled onSubmit={handleSubmit}>
       <ButtonIconStyled

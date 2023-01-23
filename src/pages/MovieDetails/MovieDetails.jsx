@@ -43,8 +43,6 @@ const MovieDetails = () => {
     };
 
     fetchData();
-
-    return () => console.log('unMount');
   }, [movieId]);
 
   const listAdditionalInfo = [
@@ -72,18 +70,18 @@ const MovieDetails = () => {
     <Container>
       {status === STATUS.success && (
         <>
-          <ButtonLink to={backLinkRef}>Go back</ButtonLink>
+          <Box pb={4}>
+            <ButtonLink to={backLinkRef}>Go back</ButtonLink>
+          </Box>
           <Box>
-            <Box>
-              <MoviesCard movieDetailsById={movieDetailsById}></MoviesCard>
-            </Box>
-            <Box>
-              <SubTitleStyled>Additional information</SubTitleStyled>
-              <List
-                items={listAdditionalInfo}
-                setItemContent={additionalInfoContent}
-              ></List>
-            </Box>
+            <MoviesCard movieDetailsById={movieDetailsById}></MoviesCard>
+          </Box>
+          <Box>
+            <SubTitleStyled>Additional information</SubTitleStyled>
+            <List
+              items={listAdditionalInfo}
+              setItemContent={additionalInfoContent}
+            ></List>
           </Box>
           <Suspense>
             <Outlet />

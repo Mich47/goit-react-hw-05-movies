@@ -4,34 +4,26 @@ import { Loader } from 'components/Loader';
 import { Searchbar } from 'components/Searchbar';
 import { STATUS } from 'constants/status.constants';
 import { useEffect, useState } from 'react';
-import {
-  Link,
-  // redirect,
-  useLocation,
-  // useNavigate,
-  useSearchParams,
-} from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { searchMovies } from 'services/posts.service';
 import { TextStyled } from '../Home/Home.styled';
 
 const Movies = () => {
-  const [renderMovies, setRenderMovies] = useState([]);
+  const [renderMovies, setRenderMovies] = useState([]); //*** */
+
   const [query, setQuery] = useSearchParams();
   const searchQuery = query.get('query');
   const location = useLocation();
-  console.log('location ', location);
   const [status, setStatus] = useState(STATUS.idle); // 'idle', 'loading', 'success', 'error',
-  // const navigate = useNavigate();
 
   const handleSubmit = searchValue => {
     setQuery(searchValue ? { query: searchValue } : {});
   };
-
+  //***************** */
   useEffect(() => {
     if (!searchQuery) {
       setRenderMovies([]);
-      // navigate('/movies', { replace: true, state: 777 });
       return;
     }
 
@@ -39,7 +31,6 @@ const Movies = () => {
       setStatus(STATUS.loading);
       try {
         const data = await searchMovies(searchQuery);
-        console.log('data ', data);
 
         if (!data) return;
 
@@ -50,6 +41,7 @@ const Movies = () => {
         if (!total_results) {
           setStatus(STATUS.success);
           toast.warn("Sorry, we couldn't find any matches. Please try again.");
+          setStatus(STATUS.success);
           return;
         }
 
@@ -63,6 +55,8 @@ const Movies = () => {
     };
     fetchData();
   }, [searchQuery]);
+
+  //************************** */
 
   const renderMoviesContent = ({ id, title }) => {
     return (

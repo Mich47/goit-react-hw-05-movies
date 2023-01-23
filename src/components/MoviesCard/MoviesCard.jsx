@@ -1,3 +1,4 @@
+import { Box } from 'components/Box';
 import no_profile from '../../images/no_profile_picture.jpg';
 
 const MoviesCard = ({ movieDetailsById }) => {
@@ -14,19 +15,19 @@ const MoviesCard = ({ movieDetailsById }) => {
     : 'Genres not found';
 
   return (
-    <div>
-      <div>
-        <img src={posterSrc} alt={title} width="120" height="auto" />
-      </div>
-      <div>
+    <Box display="flex" gap={'16px'}>
+      <Box width="512px">
+        <img src={posterSrc} alt={title} />
+      </Box>
+      <Box>
         <h2>{title}</h2>
         <p>Score: {vote_average}</p>
         <h3>Overview</h3>
         <p>{overview}</p>
         <h3>Genres</h3>
         <p>{movieGenres}</p>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 export default MoviesCard;
