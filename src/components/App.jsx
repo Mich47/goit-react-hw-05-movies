@@ -1,12 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from 'pages/Home';
-import Movies from 'pages/Movies';
-import SharedLayout from './SharedLayout/SharedLayout';
-import Cast from './Cast/Cast';
-import MovieDetails from './MovieDetails/MovieDetails';
-import Reviews from './Reviews/Reviews';
+import { lazy } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SharedLayout from './SharedLayout/SharedLayout';
+
+const Home = lazy(() => import('pages/Home/Home'));
+const Movies = lazy(() => import('pages/Movies/Movies'));
+const MovieDetails = lazy(() => import('pages/MovieDetails/MovieDetails'));
+const Cast = lazy(() => import('../pages/Cast/Cast'));
+const Reviews = lazy(() => import('../pages/Reviews/Reviews'));
 
 export const App = () => {
   return (
@@ -25,8 +27,3 @@ export const App = () => {
     </>
   );
 };
-// '/' – компонент Home, домашня сторінка зі списком популярних кінофільмів.
-// '/movies' – компонент Movies, сторінка пошуку кінофільмів за ключовим словом.
-// '/movies/:movieId' – компонент MovieDetails, сторінка з детальною інформацією про кінофільм.
-// /movies/:movieId/cast – компонент Cast, інформація про акторський склад. Рендериться на сторінці MovieDetails.
-// /movies/:movieId/reviews – компонент Reviews, інформація про огляди. Рендериться на сторінці MovieDetails.

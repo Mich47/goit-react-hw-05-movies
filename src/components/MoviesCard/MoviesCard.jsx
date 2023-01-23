@@ -1,10 +1,9 @@
-import no_profile from '../../../images/no_profile_picture.jpg';
+import no_profile from '../../images/no_profile_picture.jpg';
 
 const MoviesCard = ({ movieDetailsById }) => {
   const { title, poster_path, vote_average, overview, genres } =
     movieDetailsById;
   if (!title) return;
-  console.log('genres ', genres);
 
   const posterSrc = poster_path
     ? `https://image.tmdb.org/t/p/w500${poster_path}`

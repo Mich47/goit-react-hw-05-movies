@@ -1,5 +1,6 @@
 import Container from 'components/Container/Container';
 import { List } from 'components/List/List';
+import { Loader } from 'components/Loader';
 import { STATUS } from 'constants/status.constants';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -11,9 +12,6 @@ const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [status, setStatus] = useState(STATUS.idle); // 'idle', 'loading', 'success', 'error',
   const location = useLocation();
-  console.log('location ', location);
-  //   getTrendingMovies().then(console.log);
-  //   console.log('getTrendingMovies() ', getTrendingMovies());
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,11 +22,12 @@ const Home = () => {
         if (!data) return;
 
         console.log('data ', data);
+
         const { results, total_results } = data;
 
         if (!total_results) {
           toast.warn("Sorry, we couldn't find any matches. Please try again.");
-          setStatus(STATUS.idle);
+          setStatus(STATUS.success);
           return;
         }
 
@@ -36,7 +35,6 @@ const Home = () => {
 
         setStatus(STATUS.success);
       } catch (error) {
-        console.log('error ', error);
         toast.error('Oops! Something went wrong. Please try again.');
         setStatus(STATUS.error);
       }
@@ -44,9 +42,9 @@ const Home = () => {
     fetchData();
   }, []);
 
-  const listItemContent = ({ id, title }) => {
+  const trendingMoviesContent = ({ id, title }) => {
     return (
-      <Link to={'movies/' + String(id)}>
+      <Link to={'movies/' + String(id)} state={{ from: location }}>
         <TextStyled>{title}</TextStyled>
       </Link>
     );
@@ -55,7 +53,10 @@ const Home = () => {
   return (
     <Container>
       <TitleStyled>Trending today</TitleStyled>
-      <List items={trendingMovies} setItemContent={listItemContent} />
+      {trendingMovies && (
+        <List items={trendingMovies} setItemContent={trendingMoviesContent} />
+      )}
+      {status === STATUS.loading && <Loader />}
     </Container>
   );
 };

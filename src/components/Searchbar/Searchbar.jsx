@@ -9,23 +9,41 @@ import {
   InputStyled,
 } from '../Searchbar/Searchbar.styled';
 
-export const Searchbar = ({ onSubmitForm, status }) => {
-  const [search, setSearch] = useState('');
+export const Searchbar = ({
+  onSubmitForm,
+  status = STATUS.success,
+  value = '',
+}) => {
+  const [search, setSearch] = useState(value);
+
+  if (!value) {
+    console.log('search ', search);
+    console.log('value ', value);
+    // setSearch('');
+  }
 
   const handleChange = event => {
     const { value } = event.target;
     setSearch(value);
   };
 
+  const handleSubmit = event => {
+    event.preventDefault();
+    //Прибираємо усі зайві пробіли
+    const query = removeExtraSpaces(search);
+    setSearch(query);
+    // setSearch('');
+
+    onSubmitForm(query);
+  };
+
   const handleErase = () => {
     setSearch('');
   };
 
-  //Прибираємо усі зайві пробіли
-  const query = removeExtraSpaces(search);
-
+  // console.log('Searchbar ', value);
   return (
-    <FormStyled onSubmit={event => onSubmitForm(event, query)}>
+    <FormStyled onSubmit={handleSubmit}>
       <ButtonIconStyled
         type="submit"
         left={0}

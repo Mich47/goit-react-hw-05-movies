@@ -1,6 +1,7 @@
 import { List } from 'components/List/List';
+import { Loader } from 'components/Loader';
 import { STATUS } from 'constants/status.constants';
-import { TextStyled } from 'pages/Home.styled';
+import { TextStyled } from 'pages/Home/Home.styled';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -11,7 +12,6 @@ const Cast = () => {
   const [movieCast, setMovieCast] = useState([]);
   const [status, setStatus] = useState(STATUS.idle); // 'idle', 'loading', 'success', 'error',
   const { movieId } = useParams();
-  console.log('movieId ', movieId);
 
   const fetchData = async movieId => {
     setStatus(STATUS.loading);
@@ -20,14 +20,13 @@ const Cast = () => {
 
       if (!data) return;
 
-      console.log('getMovieCast ', data.cast);
       const { cast } = data;
 
-      // if (!total_results) {
-      //   toast.warn("Sorry, we couldn't find any matches. Please try again.");
-      //   setStatus(STATUS.idle);
-      //   return;
-      // }
+      if (!cast.length) {
+        setStatus(STATUS.success);
+        toast.warn("Sorry, we couldn't find any cast.");
+        return;
+      }
 
       setMovieCast(
         cast.map(({ id, name, character, profile_path }) => ({
@@ -40,7 +39,6 @@ const Cast = () => {
 
       setStatus(STATUS.success);
     } catch (error) {
-      console.log('error ', error);
       toast.error('Oops! Something went wrong. Please try again.');
       setStatus(STATUS.error);
     }
@@ -50,7 +48,7 @@ const Cast = () => {
     fetchData(movieId);
   }, [movieId]);
 
-  const listItemContent = ({ name, character, profile_path }) => {
+  const movieCastContent = ({ name, character, profile_path }) => {
     const imgSrc = profile_path
       ? `https://image.tmdb.org/t/p/w500${profile_path}`
       : no_profile;
@@ -64,6 +62,17 @@ const Cast = () => {
     );
   };
 
-  return <List items={movieCast} setItemContent={listItemContent} />;
+  return (
+    <>
+      {status === STATUS.success &&
+        (movieCast.length ? (
+          <List items={movieCast} setItemContent={movieCastContent} />
+        ) : (
+          <TextStyled>Cast not found.</TextStyled>
+        ))}
+      {status === STATUS.loading && <Loader />}
+    </>
+  );
 };
+
 export default Cast;

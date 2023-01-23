@@ -1,5 +1,6 @@
 import Container from 'components/Container/Container';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
 import { NavLinkStyled, NavStyled } from './SharedLayout.styled';
 
 const SharedLayout = () => {
@@ -9,11 +10,15 @@ const SharedLayout = () => {
         <Container>
           <NavStyled>
             <NavLinkStyled to="/">Home</NavLinkStyled>
-            <NavLinkStyled to="/movies">Movies</NavLinkStyled>
+            <NavLinkStyled to="/movies" state="888">
+              Movies
+            </NavLinkStyled>
           </NavStyled>
         </Container>
       </header>
-      <Outlet />
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

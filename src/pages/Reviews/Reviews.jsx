@@ -1,6 +1,7 @@
 import { List } from 'components/List/List';
+import { Loader } from 'components/Loader';
 import { STATUS } from 'constants/status.constants';
-import { TextStyled } from 'pages/Home.styled';
+import { TextStyled } from 'pages/Home/Home.styled';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -10,7 +11,6 @@ const Reviews = () => {
   const [movieReviews, setMovieReviews] = useState([]);
   const [status, setStatus] = useState(STATUS.idle); // 'idle', 'loading', 'success', 'error',
   const { movieId } = useParams();
-  console.log('movieId ', movieId);
 
   const fetchData = async movieId => {
     setStatus(STATUS.loading);
@@ -19,12 +19,11 @@ const Reviews = () => {
 
       if (!data) return;
 
-      console.log('getMovieReviews ', data);
       const { results } = data;
 
       if (!results.length) {
         toast.warn("Sorry, we couldn't find any reviews.");
-        setStatus(STATUS.idle);
+        setStatus(STATUS.success);
         return;
       }
 
@@ -39,7 +38,6 @@ const Reviews = () => {
 
       setStatus(STATUS.success);
     } catch (error) {
-      console.log('error ', error);
       toast.error('Oops! Something went wrong. Please try again.');
       setStatus(STATUS.error);
     }
@@ -49,7 +47,7 @@ const Reviews = () => {
     fetchData(movieId);
   }, [movieId]);
 
-  const listItemContent = ({ author, content, updated_at }) => {
+  const movieReviewsContent = ({ author, content, updated_at }) => {
     return (
       <>
         <TextStyled>{author}</TextStyled>
@@ -61,11 +59,13 @@ const Reviews = () => {
 
   return (
     <>
-      {movieReviews.length ? (
-        <List items={movieReviews} setItemContent={listItemContent} />
-      ) : (
-        <TextStyled>Reviews not found.</TextStyled>
-      )}
+      {status === STATUS.success &&
+        (movieReviews.length ? (
+          <List items={movieReviews} setItemContent={movieReviewsContent} />
+        ) : (
+          <TextStyled>Reviews not found.</TextStyled>
+        ))}
+      {status === STATUS.loading && <Loader />}
     </>
   );
 };
