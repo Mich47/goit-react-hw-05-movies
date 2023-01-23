@@ -1,17 +1,17 @@
 import { Box } from 'components/Box';
-import ButtonLink from 'components/ButtonLink/ButtonLink';
+import ButtonLink from 'components/Buttons/ButtonLink';
 import Container from 'components/Container/Container';
 import { List } from 'components/List/List';
 import { Loader } from 'components/Loader';
 import MoviesCard from 'components/MoviesCard/MoviesCard';
+import { SubTitleStyled } from 'components/Typography/Typography.styled';
 import { STATUS } from 'constants/status.constants';
-import { TextStyled } from 'pages/Home/Home.styled';
 import { Suspense, useState } from 'react';
 import { useEffect } from 'react';
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getMovieDetails } from 'services/posts.service';
-import { SubTitleStyled } from './MovieDetails.styled';
+import { LinkStyled } from './MovieDetails.styled';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -58,38 +58,40 @@ const MovieDetails = () => {
 
   const additionalInfoContent = ({ title }) => {
     return (
-      <Link to={title} state={location.state}>
-        <TextStyled>{title}</TextStyled>
-      </Link>
+      <LinkStyled to={title} state={location.state}>
+        {title}
+      </LinkStyled>
     );
   };
 
   const backLinkRef = location.state?.from ?? '/movies';
 
   return (
-    <Container>
-      {status === STATUS.success && (
-        <>
-          <Box pb={4}>
-            <ButtonLink to={backLinkRef}>Go back</ButtonLink>
-          </Box>
-          <Box>
-            <MoviesCard movieDetailsById={movieDetailsById}></MoviesCard>
-          </Box>
-          <Box>
-            <SubTitleStyled>Additional information</SubTitleStyled>
-            <List
-              items={listAdditionalInfo}
-              setItemContent={additionalInfoContent}
-            ></List>
-          </Box>
-          <Suspense>
-            <Outlet />
-          </Suspense>
-        </>
-      )}
-      {status === STATUS.loading && <Loader />}
-    </Container>
+    <Box as="section">
+      <Container>
+        {status === STATUS.success && (
+          <>
+            <Box pb={4}>
+              <ButtonLink to={backLinkRef}>Go back</ButtonLink>
+            </Box>
+            <Box pb={4} borderBottom="1px solid">
+              <MoviesCard movieDetailsById={movieDetailsById}></MoviesCard>
+            </Box>
+            <Box py={4} borderBottom="1px solid">
+              <SubTitleStyled>Additional information</SubTitleStyled>
+              <List
+                items={listAdditionalInfo}
+                setItemContent={additionalInfoContent}
+              ></List>
+            </Box>
+            <Suspense>
+              <Outlet />
+            </Suspense>
+          </>
+        )}
+        {status === STATUS.loading && <Loader />}
+      </Container>
+    </Box>
   );
 };
 export default MovieDetails;

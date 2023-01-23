@@ -5,10 +5,10 @@ import { space, typography } from 'styled-system';
 export const LinkStyled = styled(Link)`
   display: inline-block;
   font-size: ${p => p.theme.fontSizes.s};
-  color: ${p => p.theme.colors.secondary};
-  text-transform: capitalize;
+  color: ${p => p.theme.colors.black};
 
   font-weight: ${p => p.theme.fontWeights.bold};
+  text-decoration: underline;
 
   transition: color var(--animation);
   ${typography}

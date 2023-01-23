@@ -14,6 +14,7 @@ export const Searchbar = ({
   onSubmitForm,
   status = STATUS.success,
   value = '',
+  placeHolder = 'Search...',
 }) => {
   const [search, setSearch] = useState(value ?? '');
 
@@ -55,7 +56,7 @@ export const Searchbar = ({
         type="text"
         autocomplete="off"
         autoFocus
-        placeholder="Search movies..."
+        placeholder={placeHolder}
         onChange={handleChange}
       />
 
@@ -67,6 +68,8 @@ export const Searchbar = ({
 };
 
 Searchbar.propTypes = {
-  status: PropTypes.string.isRequired,
   onSubmitForm: PropTypes.func.isRequired,
+  status: PropTypes.string,
+  value: PropTypes.string,
+  placeHolder: PropTypes.string,
 };

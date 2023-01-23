@@ -1,13 +1,14 @@
+import { Box } from 'components/Box';
 import Container from 'components/Container/Container';
 import { List } from 'components/List/List';
 import { Loader } from 'components/Loader';
 import { Searchbar } from 'components/Searchbar';
+import { LinkStyled } from 'components/Typography/Link.styled';
 import { STATUS } from 'constants/status.constants';
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { searchMovies } from 'services/posts.service';
-import { TextStyled } from '../Home/Home.styled';
 
 const Movies = () => {
   const [renderMovies, setRenderMovies] = useState([]); //*** */
@@ -20,7 +21,7 @@ const Movies = () => {
   const handleSubmit = searchValue => {
     setQuery(searchValue ? { query: searchValue } : {});
   };
-  //***************** */
+
   useEffect(() => {
     if (!searchQuery) {
       setRenderMovies([]);
@@ -34,12 +35,9 @@ const Movies = () => {
 
         if (!data) return;
 
-        console.log('data ', data);
-
         const { results, total_results } = data;
 
         if (!total_results) {
-          setStatus(STATUS.success);
           toast.warn("Sorry, we couldn't find any matches. Please try again.");
           setStatus(STATUS.success);
           return;
@@ -53,31 +51,33 @@ const Movies = () => {
         setStatus(STATUS.error);
       }
     };
+
     fetchData();
   }, [searchQuery]);
 
-  //************************** */
-
   const renderMoviesContent = ({ id, title }) => {
     return (
-      <Link to={String(id)} state={{ from: location }}>
-        <TextStyled>{title}</TextStyled>
-      </Link>
+      <LinkStyled to={String(id)} state={{ from: location }}>
+        {title}
+      </LinkStyled>
     );
   };
 
   return (
-    <Container>
-      <Searchbar
-        onSubmitForm={handleSubmit}
-        status={status}
-        value={searchQuery}
-      />
-      {renderMovies && (
-        <List items={renderMovies} setItemContent={renderMoviesContent} />
-      )}
-      {status === STATUS.loading && <Loader />}
-    </Container>
+    <Box as="section">
+      <Container>
+        <Searchbar
+          onSubmitForm={handleSubmit}
+          status={status}
+          value={searchQuery}
+          placeHolder="Search movies..."
+        />
+        {renderMovies && (
+          <List items={renderMovies} setItemContent={renderMoviesContent} />
+        )}
+        {status === STATUS.loading && <Loader />}
+      </Container>
+    </Box>
   );
 };
 

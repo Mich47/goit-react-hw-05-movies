@@ -1,5 +1,10 @@
-import { Box } from 'components/Box';
+import {
+  SubTitleStyled,
+  TextStyled,
+  TitleStyled,
+} from 'components/Typography/Typography.styled';
 import no_profile from '../../images/no_profile_picture.jpg';
+import { Container, DescWrapper, ImageWrapper } from './MoviesCard.styled';
 
 const MoviesCard = ({ movieDetailsById }) => {
   const { title, poster_path, vote_average, overview, genres } =
@@ -15,19 +20,19 @@ const MoviesCard = ({ movieDetailsById }) => {
     : 'Genres not found';
 
   return (
-    <Box display="flex" gap={'16px'}>
-      <Box width="512px">
+    <Container>
+      <ImageWrapper>
         <img src={posterSrc} alt={title} />
-      </Box>
-      <Box>
-        <h2>{title}</h2>
-        <p>Score: {vote_average}</p>
-        <h3>Overview</h3>
-        <p>{overview}</p>
-        <h3>Genres</h3>
-        <p>{movieGenres}</p>
-      </Box>
-    </Box>
+      </ImageWrapper>
+      <DescWrapper>
+        <TitleStyled fontSize="l">{title}</TitleStyled>
+        <TextStyled>Score: {vote_average}</TextStyled>
+        <SubTitleStyled>Overview</SubTitleStyled>
+        <TextStyled>{overview}</TextStyled>
+        <SubTitleStyled>Genres</SubTitleStyled>
+        <TextStyled>{movieGenres}</TextStyled>
+      </DescWrapper>
+    </Container>
   );
 };
 export default MoviesCard;

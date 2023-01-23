@@ -1,7 +1,8 @@
+import { Box } from 'components/Box';
 import { List } from 'components/List/List';
 import { Loader } from 'components/Loader';
+import { TextStyled } from 'components/Typography/Typography.styled';
 import { STATUS } from 'constants/status.constants';
-import { TextStyled } from 'pages/Home/Home.styled';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -22,17 +23,16 @@ const Reviews = () => {
       const { results } = data;
 
       if (!results.length) {
-        toast.warn("Sorry, we couldn't find any reviews.");
         setStatus(STATUS.success);
+        toast.warn("Sorry, we couldn't find any reviews.");
         return;
       }
 
       setMovieReviews(
-        results.map(({ id, author, content, updated_at }) => ({
+        results.map(({ id, author, content }) => ({
           id,
           author,
           content,
-          updated_at,
         }))
       );
 
@@ -47,26 +47,25 @@ const Reviews = () => {
     fetchData(movieId);
   }, [movieId]);
 
-  const movieReviewsContent = ({ author, content, updated_at }) => {
+  const movieReviewsContent = ({ author, content }) => {
     return (
       <>
-        <TextStyled>{author}</TextStyled>
-        <TextStyled>{updated_at}</TextStyled>
+        <TextStyled fontWeight="bold">Author: {author}</TextStyled>
         <TextStyled>{content}</TextStyled>
       </>
     );
   };
 
   return (
-    <>
+    <Box py={4}>
       {status === STATUS.success &&
         (movieReviews.length ? (
           <List items={movieReviews} setItemContent={movieReviewsContent} />
         ) : (
-          <TextStyled>Reviews not found.</TextStyled>
+          <TextStyled fontWeight="bold">Reviews not found.</TextStyled>
         ))}
       {status === STATUS.loading && <Loader />}
-    </>
+    </Box>
   );
 };
 

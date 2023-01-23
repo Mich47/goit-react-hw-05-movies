@@ -10,15 +10,15 @@ const SharedLayout = () => {
         <Container>
           <NavStyled>
             <NavLinkStyled to="/">Home</NavLinkStyled>
-            <NavLinkStyled to="/movies" state="888">
-              Movies
-            </NavLinkStyled>
+            <NavLinkStyled to="/movies">Movies</NavLinkStyled>
           </NavStyled>
         </Container>
       </header>
-      <Suspense fallback={null}>
-        <Outlet />
-      </Suspense>
+      <main>
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
+      </main>
     </>
   );
 };

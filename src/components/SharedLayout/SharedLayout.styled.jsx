@@ -4,14 +4,17 @@ import styled from 'styled-components';
 export const NavStyled = styled.nav`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
 `;
 
 export const NavLinkStyled = styled(NavLink)`
+  color: ${p => p.theme.colors.darkGray};
   font-weight: ${p => p.theme.fontWeights.bold};
+  padding: ${p => p.theme.space[2]}px;
   transition: color var(--animation);
   &:hover,
-  &:focus {
-    color: ${p => p.theme.colors.darkGray};
+  &:focus,
+  &.active {
+    color: ${p => p.theme.colors.primary};
   }
 `;

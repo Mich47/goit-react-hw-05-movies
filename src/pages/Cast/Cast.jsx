@@ -1,7 +1,8 @@
+import { Box } from 'components/Box';
 import { List } from 'components/List/List';
 import { Loader } from 'components/Loader';
+import { TextStyled } from 'components/Typography/Typography.styled';
 import { STATUS } from 'constants/status.constants';
-import { TextStyled } from 'pages/Home/Home.styled';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -54,11 +55,11 @@ const Cast = () => {
       : no_profile;
 
     return (
-      <>
-        <img src={imgSrc} alt={name} width="120" height="auto" />
-        <TextStyled>{name}</TextStyled>
+      <Box py={4}>
+        <img src={imgSrc} alt={name} width="180" height="auto" />
+        <TextStyled fontWeight="bold">{name}</TextStyled>
         <TextStyled>Character: {character}</TextStyled>
-      </>
+      </Box>
     );
   };
 
@@ -68,7 +69,7 @@ const Cast = () => {
         (movieCast.length ? (
           <List items={movieCast} setItemContent={movieCastContent} />
         ) : (
-          <TextStyled>Cast not found.</TextStyled>
+          <TextStyled fontWeight="bold">Cast not found.</TextStyled>
         ))}
       {status === STATUS.loading && <Loader />}
     </>

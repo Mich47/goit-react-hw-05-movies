@@ -1,10 +1,12 @@
+import { Box } from 'components/Box';
 import Container from 'components/Container/Container';
 import { List } from 'components/List/List';
 import { Loader } from 'components/Loader';
+import { LinkStyled } from 'components/Typography/Link.styled';
+import { MainTitleStyled } from 'components/Typography/Typography.styled';
 import { STATUS } from 'constants/status.constants';
 import { useFetchTrendingMovies } from 'hooks/useFetchMovie';
-import { Link, useLocation } from 'react-router-dom';
-import { TextStyled, TitleStyled } from './Home.styled';
+import { useLocation } from 'react-router-dom';
 
 const Home = () => {
   const { movies: trendingMovies, status } = useFetchTrendingMovies();
@@ -12,20 +14,22 @@ const Home = () => {
 
   const trendingMoviesContent = ({ id, title }) => {
     return (
-      <Link to={'movies/' + String(id)} state={{ from: location }}>
-        <TextStyled>{title}</TextStyled>
-      </Link>
+      <LinkStyled to={'movies/' + String(id)} state={{ from: location }}>
+        {title}
+      </LinkStyled>
     );
   };
 
   return (
-    <Container>
-      <TitleStyled>Trending today</TitleStyled>
-      {trendingMovies && (
-        <List items={trendingMovies} setItemContent={trendingMoviesContent} />
-      )}
-      {status === STATUS.loading && <Loader />}
-    </Container>
+    <Box as="section">
+      <Container>
+        <MainTitleStyled>Trending today</MainTitleStyled>
+        {trendingMovies && (
+          <List items={trendingMovies} setItemContent={trendingMoviesContent} />
+        )}
+        {status === STATUS.loading && <Loader />}
+      </Container>
+    </Box>
   );
 };
 
