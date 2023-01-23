@@ -27,7 +27,7 @@ const MoviesCard = ({ movieDetailsById }) => {
       </ImageWrapper>
       <DescWrapper>
         <MainTitleStyled>{title}</MainTitleStyled>
-        <TextStyled>Score: {vote_average}</TextStyled>
+        <TextStyled>Score: {Math.round(vote_average * 10)}%</TextStyled>
         <SubTitleStyled>Overview</SubTitleStyled>
         <TextStyled>{movieOverview}</TextStyled>
         <SubTitleStyled>Genres</SubTitleStyled>
