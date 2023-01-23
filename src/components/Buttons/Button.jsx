@@ -6,6 +6,6 @@ const Button = ({ children }) => {
 };
 export default Button;
 
-ButtonLink.propTypes = {
+Button.propTypes = {
   children: PropTypes.string.isRequired,
 };
